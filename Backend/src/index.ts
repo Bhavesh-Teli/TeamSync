@@ -6,6 +6,9 @@ import { config } from "./config/app.config";
 import connectDatabase from "./config/db.config";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
 import { asyncHandler } from "./middlewares/asyncHandler.middleware";
+import { BadRequestException } from "./utils/appError";
+import { ErrorCodeEnum } from "./enums/error-code.enums";
+import { HTTPSTATUS } from "./config/http.config";
 const app = express();
 const BASE_PATH = config.BASE_PATH;
 
@@ -31,8 +34,10 @@ app.use(
 );
 app.get('/',asyncHandler(async (req:Request,res:Response,next:NextFunction)=>{
 
-    // throw new Error("test");
-     res.status(200).json({message:"hhelldow"})
+    throw new BadRequestException(
+      "This is a bad request",ErrorCodeEnum.AUTH_INVALID_TOKEN
+    );
+     res.status(HTTPSTATUS.OK).json({message:"hhelldow"})
  
  
 }))
